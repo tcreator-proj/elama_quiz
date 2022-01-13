@@ -1,9 +1,10 @@
 version: "3.7"
 
 services:
-  quiz_base:
+  dbase:
     container_name: pstg_quiz
     image: postgres
+    restart: always
     ports:
       - 5432:5432
     environment:
@@ -11,11 +12,11 @@ services:
       POSTGRES_USER: quiz_master
 
   quiz_chat:
-    container_name: cloud_storage
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://quiz_base:5432/postgres
+    container_name: quiz_chat
     build: ./
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dbase:5432/postgres
     ports:
       - "8080:9999"
     depends_on:
-      - quiz_base:pstg_quiz
+      - "dbase"
