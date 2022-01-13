@@ -1,3 +1,5 @@
+console.log(1)
+
 $(function(){
     $('.fa-minus').click(function(){    $(this).closest('.chatbox').toggleClass('chatbox-min');
     });
