@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  quiz:
+  quiz_chat:
     build: ./
     ports:
-      - "80:9999"
+      - "8080:9999"
