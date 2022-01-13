@@ -1,7 +1,21 @@
 version: "3.7"
 
 services:
+  quiz_base:
+    container_name: pstg_quiz
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: dataadmin1234
+      POSTGRES_USER: quiz_master
+
   quiz_chat:
+    container_name: cloud_storage
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://quiz_base:5432/postgres
     build: ./
     ports:
       - "8080:9999"
+    depends_on:
+      - quiz_base:pstg_quiz
