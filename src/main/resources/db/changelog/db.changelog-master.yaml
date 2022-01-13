@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: "migrate_script/db-start.sql"
