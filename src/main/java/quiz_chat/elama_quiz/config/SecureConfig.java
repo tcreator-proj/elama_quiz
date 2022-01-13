@@ -1,7 +1,6 @@
 package quiz_chat.elama_quiz.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,7 +18,7 @@ public class SecureConfig extends WebSecurityConfigurerAdapter {
         http.
                 csrf()
                 .disable()
-                .authorizeRequests().antMatchers("/", "/chat").permitAll()
+                .authorizeRequests().antMatchers("/", "/chat", "/content/**").permitAll()
                 .antMatchers("/admin/**").authenticated()
                 .anyRequest().authenticated()
                 .and()

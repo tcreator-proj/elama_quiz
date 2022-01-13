@@ -16,14 +16,15 @@ public class RequestController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Request getStr(@RequestBody Request request) {
-        return new Request(request.getName());
+
+        return new Request(request.getName(), request.getCounter() + 1);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value ="/chat", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Request getChat(@RequestBody Request request) {
-        return new Request(request.getName());
+        return new Request(request.getName(), request.getCounter() + 1);
     }
 
 }

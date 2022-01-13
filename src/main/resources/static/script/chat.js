@@ -1,10 +1,28 @@
-console.log(1)
+(async function() {
+    let body = {
+        name: "Vladislav",
+        counter: 1
+    }
+    let bodies = document.body;
+    bodies.addEventListener("click", async (event) => {
+        try {
+            let json = await fetch("http://localhost:8080", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(body)
+            })
+            let returned = await json.json()
+            body.counter = returned.counter;
 
-$(function(){
-    $('.fa-minus').click(function(){    $(this).closest('.chatbox').toggleClass('chatbox-min');
-    });
-    $('.fa-close').click(function(){
-        $(this).closest('.chatbox').hide();
-    });
-});
+            console.log(body.counter)
+        } catch (e) {
+            console.log(e)
+        }
 
+    })
+
+
+
+})()

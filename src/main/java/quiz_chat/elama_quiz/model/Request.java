@@ -12,4 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Request {
     protected String name;
+
+    protected int counter;
 }
