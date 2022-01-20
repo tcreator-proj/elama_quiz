@@ -1,3 +1,10 @@
 databaseChangeLog:
   - include:
+      author: "tCreator"
+      runAlways: false
       file: "migration_script/elama_quiz_create_table.sql"
+  - include:
+      author: "tCreator"
+      runAlways: false
+      runOnChange: true
+      file: "migration_script/DML_default_network.sql"
