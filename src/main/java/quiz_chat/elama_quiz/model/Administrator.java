@@ -20,7 +20,7 @@ public class Administrator {
     private String login;
 
     @Column(nullable = false)
-    private String email;
+    private String password;
 
     @Column(nullable = false)
     private String role;

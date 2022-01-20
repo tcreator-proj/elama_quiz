@@ -4,7 +4,7 @@
  В каждом блоке первый элемент ( равный ID ) вляется ссылкой
 
  */
-CREATE FUNCTION createDataNetwork() RETURNS void as $$
+CREATE OR REPLACE FUNCTION createDataNetwork() RETURNS void as $$
     DECLARE
         counter_limit integer := 1000;
         block_size integer := 10;

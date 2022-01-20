@@ -1,5 +1,5 @@
 ﻿CREATE TABLE "quiz" (
-    "ID" serial NOT NULL,
+    "id" serial NOT NULL,
     "group" integer NOT NULL, -- номер группы ( каждый 10й ID)
     "next" integer, -- следующий элемент ( ссылка на группу )
     "prev" integer, -- предыдущий элемент ( ссылка на группу )
@@ -9,7 +9,7 @@
     "delay" int, -- задержка перед выводом в чат
     "final" boolean, -- завершающий элемент в цепочке
     CONSTRAINT "pk_quiz" PRIMARY KEY (
-        "ID"
+        "id"
      )
 );
 

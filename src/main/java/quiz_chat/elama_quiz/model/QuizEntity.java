@@ -6,9 +6,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name="quiz")
+@Table(name="quiz", schema = "public")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -16,33 +17,24 @@ import javax.persistence.*;
 public class QuizEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name="ID", unique = true, nullable = false)
-    protected int id;
+    @Column(unique = true, nullable = false)
+    protected Integer id;
 
-    @GeneratedValue
-    protected int group;
+    protected Integer group;
 
-    @GeneratedValue
-    protected int next;
+    protected Integer next;
 
-    @GeneratedValue
-    protected int prev;
+    protected Integer prev;
 
-    @GeneratedValue
     protected String describe;
 
-    @GeneratedValue
     protected String additional;
 
-    @GeneratedValue
     protected String question;
 
-    @GeneratedValue
-    protected int delay;
+    protected Integer delay;
 
-    @GeneratedValue
     @Column(name = "final")
-    protected boolean isFinal;
+    protected Boolean isFinal;
 
 }
