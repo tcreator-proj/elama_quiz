@@ -1,22 +1,10 @@
 version: "3.7"
 
 services:
-  dbase:
-    container_name: pstg_quiz
-    image: postgres
-    restart: always
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: dataadmin1234
-      POSTGRES_USER: quiz_master
-
   quiz_chat:
     container_name: quiz_chat
     build: ./
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://dbase:5432/postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://92.255.107.13:5432/default_db
     ports:
       - "8080:9999"
-    depends_on:
-      - "dbase"
