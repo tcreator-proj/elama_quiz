@@ -1,5 +1,5 @@
 ﻿CREATE TABLE "quiz" (
-    "ID" serial NOT NULL,
+    "id" serial NOT NULL,
     "next" integer,
     "group" integer,
     "prev" integer,
@@ -12,7 +12,7 @@
     "isAnswer" boolean,
     "isOption" boolean,
     CONSTRAINT "pk_quiz" PRIMARY KEY (
-      "ID"
+      "id"
     )
 );
 
