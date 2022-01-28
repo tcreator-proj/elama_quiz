@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
-@Entity
+//@Entity
 @Table(name = "users")
 @Getter
 @Setter
