@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public interface QuestRepository extends CrudRepository<Quiz, Integer> {
-    List<Quiz> findQuizzesByContentNotNullOrderByIdAsc();
+    List<Quiz> findQuizzesByContentIsNotNullOrderByIdAsc();
 
-    List<Quiz> findQuizById(int id);
+    Quiz findQuizById(int id);
 }

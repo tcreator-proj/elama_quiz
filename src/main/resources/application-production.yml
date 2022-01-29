@@ -8,7 +8,7 @@ spring:
     username: ${DB_ELAMA_QUIZ_USERNAME}
   liquibase:
     change-log: "classpath:db/changelog/db.changelog-master.yaml"
-    enabled: true
+    enabled: false
   sql:
     init:
       continue-on-error: true

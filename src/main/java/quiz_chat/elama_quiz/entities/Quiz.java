@@ -1,19 +1,16 @@
 package quiz_chat.elama_quiz.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import javax.persistence.*;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "quiz")
 public class Quiz {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -26,30 +23,28 @@ public class Quiz {
     @Column(name = "prev")
     private Integer prev;
 
-    @Lob
     @Column(name = "describe")
     private String describe;
 
-    @Lob
     @Column(name = "additional")
     private String additional;
 
-    @Lob
     @Column(name = "content")
     private String content;
 
-    @Column(name = "delay")
+    @Column(name = "delay" )
     private Integer delay;
 
     @Column(name = "final")
     private Boolean _final;
 
-    @Column(name = "isQuestion")
+    @Column(name = "is_question")
     private Boolean isQuestion;
 
-    @Column(name = "isAnswer")
+    @Column(name = "is_answer")
     private Boolean isAnswer;
 
-    @Column(name = "isOption")
+    @Column(name = "is_option")
     private Boolean isOption;
+
 }
