@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 @Component
-@NoArgsConstructor
 public class QuestStorageOperation extends QuestStorage {
     public Optional<QuestFrame> getFrame(int id) {
         return Optional.of(storage.get(id));

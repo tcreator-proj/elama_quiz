@@ -1,5 +1,5 @@
 package quiz_chat.elama_quiz.storage.utill;
-import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -7,11 +7,9 @@ import quiz_chat.elama_quiz.entities.Quiz;
 import quiz_chat.elama_quiz.model.QuestFrame;
 import quiz_chat.elama_quiz.storage.QuestStorage;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
-@NoArgsConstructor
 public class QuestStorageBuilder extends QuestStorage {
     @Autowired
     protected ApplicationContext applicationContext;
@@ -20,8 +18,7 @@ public class QuestStorageBuilder extends QuestStorage {
      * Строит мапу квеста из списка
      * @param quizList список вопросов
      */
-    public void buildQuestStorage(List<Quiz> quizList) {
-        storage = new ConcurrentHashMap<>();
+    public void buildQuestStorage(@NotNull List<Quiz> quizList) {
         HashMap<Integer, ArrayList<Quiz>> tmpStorage = new HashMap<>();
         quizList.forEach(element -> {
             var groupId = element.getGroup();

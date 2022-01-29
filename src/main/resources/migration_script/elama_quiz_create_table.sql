@@ -8,9 +8,9 @@
     "content" text,
     "delay" int,
     "final" boolean,
-    "isQuestion" boolean,
-    "isAnswer" boolean,
-    "isOption" boolean,
+    "is_question" boolean,
+    "is_answer" boolean,
+    "is_option" boolean,
     CONSTRAINT "pk_quiz" PRIMARY KEY (
       "id"
     )

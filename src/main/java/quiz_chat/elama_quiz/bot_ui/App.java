@@ -1,21 +1,17 @@
 package quiz_chat.elama_quiz.bot_ui;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import quiz_chat.elama_quiz.repository.QuestRepository;
-import quiz_chat.elama_quiz.storage.utill.QuestStorageBuilder;
+import quiz_chat.elama_quiz.bot_ui.controller.BotController;
 
 @Component
 public class App extends TelegramLongPollingBot {
     @Autowired
-    private QuestStorageBuilder questStorageBuilder;
-
-    @Autowired
-    private QuestRepository questRepository;
+    protected BotController botController;
 
     @Getter
     @Value("${bot.name}") private String botUsername;
@@ -24,10 +20,18 @@ public class App extends TelegramLongPollingBot {
     @Value("${bot.token}") private String botToken;
 
     @Override
+    public void onRegister() {
+        System.out.println("Построение карты квестов");
+        botController.startStorage();
+    }
+
+    @Override
     public void onUpdateReceived(Update update) {
-        var listOfQuest = questRepository.findQuizzesByContentIsNotNullOrderByIdAsc();
-        questStorageBuilder.buildQuestStorage(listOfQuest);
-        System.out.println(false);
+
+
+
+        var newPlan = botController.makingNewUserData(update.getMessage().getChatId());
+        System.out.println(newPlan.getCurrentFrame().getFrameGroup());
 //        try {
 //            var msgBuilder = SendMessage.builder();
 //            msgBuilder
