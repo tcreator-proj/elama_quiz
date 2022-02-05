@@ -16,6 +16,15 @@
     )
 );
 
+create table travel_state (
+      chat_id bigint not null primary key,
+      user_name varchar not null,
+      user_nick_name varchar,
+      user_route int[],
+      the_end bool,
+      current_frame int
+);
+
 CREATE TABLE "administrators" (
   "login" VARCHAR NOT NULL,
   "password" VARCHAR NOT NULL,
