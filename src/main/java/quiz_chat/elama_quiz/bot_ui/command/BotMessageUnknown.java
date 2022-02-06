@@ -1,20 +1,21 @@
 package quiz_chat.elama_quiz.bot_ui.command;
-import lombok.Getter;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-@Component
 @Getter
+@Component
+@ToString
 @NoArgsConstructor
 @Scope("prototype")
-public class BotCommand implements Executable {
-
-    protected final String type = "command";
+public class BotMessageUnknown implements Executable {
+    protected final String type = "i don't know";
     @Setter
     protected long chatId;
     @Setter
@@ -24,7 +25,7 @@ public class BotCommand implements Executable {
     public SendMessage getExecutive() {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("You set bot command: " + message.getText());
+        sendMessage.setText("Не могу разобрать, что это за команда" + message.getText() + ". Команды начинаются с \\ ");
         return sendMessage;
     }
 }
