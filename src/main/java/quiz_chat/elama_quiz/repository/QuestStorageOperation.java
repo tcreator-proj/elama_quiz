@@ -1,6 +1,5 @@
 package quiz_chat.elama_quiz.repository;
 
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import quiz_chat.elama_quiz.model.QuestFrame;
 import quiz_chat.elama_quiz.storage.QuestStorage;
@@ -26,7 +25,7 @@ public class QuestStorageOperation extends QuestStorage {
 
     // возвращает начальный QuestFrame.
     public QuestFrame getStartsQuestFrame() {
-        return storage.get(10);
+        return storage.get(0);
     }
 
 }

@@ -5,5 +5,5 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 // Интерфейс для команд
 public interface Executable {
 
-    SendMessage getExecutive();
+    void execute();
 }
