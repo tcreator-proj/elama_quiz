@@ -1,9 +1,11 @@
 package quiz_chat.elama_quiz.bot_ui;
 import lombok.Getter;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -54,6 +56,7 @@ public class App extends TelegramLongPollingBot {
         }
     }
 
+    @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
         RouterOfMessages messageRouter = applicationContext.getBean(RouterOfMessages.class);

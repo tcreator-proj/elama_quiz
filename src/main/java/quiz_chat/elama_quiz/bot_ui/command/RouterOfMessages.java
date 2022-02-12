@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class RouterOfMessages {
     @Autowired
-    protected BotOptionController botOptionController;
+    protected BotAnswerOptionController botAnswerOptionController;
     @Autowired
     protected BotCommandController botCommandController;
     @Autowired
@@ -14,9 +14,9 @@ public class RouterOfMessages {
 
     public Executable botMessageRoute(Update botMessageUpdating) {
         if(botMessageUpdating.hasCallbackQuery()) {
-            botOptionController.setCallbackQuery(botMessageUpdating.getCallbackQuery());
-            botOptionController.setChatId(botMessageUpdating.getCallbackQuery().getMessage().getChatId());
-            return botOptionController;
+            botAnswerOptionController.setCallbackQuery(botMessageUpdating.getCallbackQuery());
+            botAnswerOptionController.setChatId(botMessageUpdating.getCallbackQuery().getMessage().getChatId());
+            return botAnswerOptionController;
         }
 
         if(botMessageUpdating.hasMessage()) {
