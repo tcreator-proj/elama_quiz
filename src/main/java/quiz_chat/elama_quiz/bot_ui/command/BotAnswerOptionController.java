@@ -29,11 +29,11 @@ public class BotAnswerOptionController implements Executable {
 
     @Override
     public void execute() {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(String.valueOf(chatId));
-
-        var startMessage = questGameplay.makeAnswerFromInlineQuery(callbackQuery, sendMessage);
-        app.onUpdateSynchronousReceived(startMessage);
-
+        var startMessageList = questGameplay.makeAnswerFromInlineQuery(callbackQuery, String.valueOf(chatId));
+        if(startMessageList.size() > 1) {
+            app.onUpdateAsynchronousReceived(startMessageList);
+        } else {
+            app.onUpdateSynchronousReceived(startMessageList);
+        }
     }
 }

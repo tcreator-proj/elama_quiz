@@ -13,6 +13,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import quiz_chat.elama_quiz.bot_ui.command.RouterOfMessages;
 import quiz_chat.elama_quiz.bot_ui.controller.BotController;
+import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageEntity;
+import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageList;
 import quiz_chat.elama_quiz.repository.TravelStateRepository;
 
 @Component
@@ -32,16 +34,22 @@ public class App extends TelegramLongPollingBot {
 
     @Override
     public void onRegister() {
-        System.out.println("Построение карты квестов");
+        System.out.println("Построение карты квеста");
         botController.startStorage();
     }
 
     // Асинхронная отправка сообщения
     // TODO продумать отправку сообщения из другого потока чтобы не занимать главный поток
-    public void onUpdateAsynchronousReceived(SendMessage sendMessage) {
+    @Async
+    public void onUpdateAsynchronousReceived(SendMessageList sendMessageList) {
         try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
+            System.out.println(sendMessageList.size());
+            for(int i = 0; i < sendMessageList.size(); i++) {
+                SendMessageEntity entity = sendMessageList.get(i);
+                execute(entity.getSendMessage());
+                Thread.sleep(entity.getDelay());
+            }
+        } catch (TelegramApiException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -56,6 +64,15 @@ public class App extends TelegramLongPollingBot {
         }
     }
 
+    public void onUpdateSynchronousReceived(SendMessageList messageList) {
+        try {
+            execute(messageList.get(0).getSendMessage());
+        } catch (TelegramApiException e) {
+
+            e.printStackTrace();
+        }
+    }
+
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
@@ -63,4 +80,5 @@ public class App extends TelegramLongPollingBot {
         var executableEntity = messageRouter.botMessageRoute(update);
         executableEntity.execute();
     }
+
 }
