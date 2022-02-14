@@ -1,6 +1,7 @@
 package quiz_chat.elama_quiz.entities;
 
 import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
@@ -46,5 +47,4 @@ public class Quiz {
 
     @Column(name = "is_option")
     private Boolean isOption;
-
 }

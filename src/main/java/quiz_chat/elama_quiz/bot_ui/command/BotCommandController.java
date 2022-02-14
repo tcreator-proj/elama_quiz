@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import quiz_chat.elama_quiz.bot_ui.App;
+import quiz_chat.elama_quiz.bot_ui.game_process.QuizGame;
 import quiz_chat.elama_quiz.process.QuestGameplay;
 
 @Component
@@ -22,6 +22,9 @@ public class BotCommandController implements Executable {
     @Autowired
     protected QuestGameplay questGameplay;
 
+    @Autowired
+    protected QuizGame quizGame;
+
     protected final String type = "command";
     @Setter
     protected long chatId;
@@ -33,9 +36,16 @@ public class BotCommandController implements Executable {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
 
-        if(message.getText().equals("/newgame") || message.getText().equals("/start")) {
+        if(message.getText().equals("/start")) {
             var startMessage = questGameplay.getStartMessage(message, sendMessage);
             app.onUpdateSynchronousReceived(startMessage);
+        }
+        if(message.getText().equals("/newgame")) {
+            sendMessage.setText("Просто тестовая отправка");
+            sendMessage.setReplyMarkup(quizGame.getTestKeyboardWithText());
+            app.onUpdateSynchronousReceived(sendMessage);
+//            var startMessage = questGameplay.getStartMessage(message, sendMessage);
+//            app.onUpdateSynchronousReceived(startMessage);
         }
     }
 }

@@ -11,6 +11,8 @@ public class RouterOfMessages {
     protected BotCommandController botCommandController;
     @Autowired
     protected BotMessageUnknownController botMessageUnknownController;
+    @Autowired
+    protected BotMessageOfQuizController botMessageOfQuizController;
 
     public Executable botMessageRoute(Update botMessageUpdating) {
         if(botMessageUpdating.hasCallbackQuery()) {
@@ -28,10 +30,19 @@ public class RouterOfMessages {
                 botCommandController.setChatId(messageId);
                 return botCommandController;
             } else {
-                // если что-то кроме любой команды
-                botMessageUnknownController.setChatId(messageId);
-                botMessageUnknownController.setMessage(message);
-                return botMessageUnknownController;
+                botMessageOfQuizController.setMessage(message);
+                botMessageOfQuizController.setChatId(messageId);
+                // Если текста сообщения нет в командах текущего фрейма
+                if(botMessageOfQuizController.itIsNotMine()) {
+                    botMessageUnknownController.setChatId(messageId);
+                    botMessageUnknownController.setMessage(message);
+                    return botMessageUnknownController;
+                } else {
+                    // иначе обратывает как кнопку в текущем контексте прохождения
+                    return botMessageOfQuizController;
+                }
+                // если сообщение содержит текст
+
             }
         }
         return null;

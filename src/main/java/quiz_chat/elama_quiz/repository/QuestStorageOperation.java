@@ -6,6 +6,7 @@ import quiz_chat.elama_quiz.storage.QuestStorage;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 @Component
@@ -28,4 +29,16 @@ public class QuestStorageOperation extends QuestStorage {
         return storage.get(0);
     }
 
+    // если текст сообщения присутствует в одном из опций текущего фрейма, значит true
+    public boolean findTextInOptionsContent(int id, String text) {
+        var frame = getFrame(id);
+        AtomicBoolean isFind = new AtomicBoolean(false);
+        frame.ifPresent(thisFrame -> {
+            var list = thisFrame.getNextList();
+            if(list.size() > 0) {
+                list.forEach(quiz -> isFind.set(quiz.getContent().equals(text)));
+            }
+        });
+        return isFind.get();
+    }
 }
