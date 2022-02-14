@@ -6,6 +6,10 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     password: ${DB_ELAMA_QUIZ_PASSWORD}
     username: ${DB_ELAMA_QUIZ_USERNAME}
+    hikari:
+      connection-timeout: 100000
+      idle-timeout: 600000
+      max-lifetime: 1800000
   liquibase:
     change-log: "classpath:db/changelog/db.changelog-master.yaml"
     enabled: false
