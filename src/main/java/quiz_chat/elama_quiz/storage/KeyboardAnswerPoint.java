@@ -15,7 +15,7 @@ public class KeyboardAnswerPoint {
     static protected ConcurrentHashMap<Integer, KeyboardPointerMap> pointerMap = new ConcurrentHashMap<>();
 
     // возвращает указатель на следующий фрейм на основе текста кнопки
-    public Optional<Integer> getIfPresent(Integer frame, Long hash) {
+    public Optional<Integer> getIfPresent(Integer frame, Integer hash) {
         Optional<KeyboardPointerMap> keyboardPointerMap = Optional.of(pointerMap.get(frame));
         return keyboardPointerMap.get().getPointer(hash);
     }

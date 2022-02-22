@@ -17,6 +17,8 @@ import java.util.Map;
 public class QuizKeyboardMapBuilder extends QuizKeyboardMap {
     @Autowired
     protected ApplicationContext applicationContext;
+    @Autowired
+    protected BuildGroupMap buildGroupMap;
 
     /**
      * Собирает ConcurrentHashMap из списка квизов
@@ -24,18 +26,9 @@ public class QuizKeyboardMapBuilder extends QuizKeyboardMap {
      */
     public void buildQuizKeyboardMap(@NotNull List<Quiz> quizList) {
         // строим промежуточное хранилище по группам(фреймам)
-        HashMap<Integer, ArrayList<Quiz>> tmpStorage = new HashMap<>();
-        quizList.forEach(element -> {
-            var groupId = element.getGroup();
-            if(!tmpStorage.containsKey(groupId)) {
-                tmpStorage.put(groupId, new ArrayList<>());
-                tmpStorage.get(groupId).add(element);
-            } else {
-                tmpStorage.get(groupId).add(element);
-            }
-        });
+        var tmpHasMap= buildGroupMap.getGroupHashMap(quizList);
         // пересобирает ConcurrentHashMap<GroupInteger, Quiz> в Map<Keyboard>
-        repackingMapToKeyboardFrame(tmpStorage);
+        repackingMapToKeyboardFrame(tmpHasMap);
     }
 
     protected void repackingMapToKeyboardFrame(HashMap<Integer, ArrayList<Quiz>> quizMap) {

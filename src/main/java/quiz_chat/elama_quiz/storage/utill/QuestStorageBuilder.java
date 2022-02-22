@@ -13,22 +13,14 @@ import java.util.*;
 public class QuestStorageBuilder extends QuestStorage {
     @Autowired
     protected ApplicationContext applicationContext;
-
+    @Autowired
+    protected BuildGroupMap buildGroupMap;
     /**
      * Строит мапу квеста из списка
      * @param quizList список вопросов
      */
     public void buildQuestStorage(@NotNull List<Quiz> quizList) {
-        HashMap<Integer, ArrayList<Quiz>> tmpStorage = new HashMap<>();
-        quizList.forEach(element -> {
-            var groupId = element.getGroup();
-            if(!tmpStorage.containsKey(groupId)) {
-                tmpStorage.put(groupId, new ArrayList<>());
-                tmpStorage.get(groupId).add(element);
-            } else {
-                tmpStorage.get(groupId).add(element);
-            }
-        });
+        HashMap<Integer, ArrayList<Quiz>> tmpStorage = buildGroupMap.getGroupHashMap(quizList);
         repackingMapToFrame(tmpStorage);
     }
 
