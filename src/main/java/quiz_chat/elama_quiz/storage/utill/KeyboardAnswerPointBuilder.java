@@ -41,7 +41,8 @@ public class KeyboardAnswerPointBuilder extends KeyboardAnswerPoint {
 
             for (Quiz q: valueList) {
                 if(q.getIsOption() != null && q.getIsOption()) {
-                    keyboardPointerMap.put(q.getContent().hashCode(), q.getNext());
+                    var next = q.getNext() == null ? 333333 : q.getNext();
+                    keyboardPointerMap.put(q.getContent().hashCode(), next);
                 }
             }
 

@@ -34,7 +34,6 @@ public class App extends TelegramLongPollingBot {
 
     @Override
     public void onRegister() {
-        System.out.println("Построение карты квеста");
         botController.startStorage();
     }
 
