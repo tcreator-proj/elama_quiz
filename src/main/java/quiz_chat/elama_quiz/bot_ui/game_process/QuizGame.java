@@ -5,7 +5,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import quiz_chat.elama_quiz.bot_ui.models.ReplyKeyboardMarkerBuilder;
 import quiz_chat.elama_quiz.repository.QuestStorageOperation;
 import quiz_chat.elama_quiz.repository.TravelStateRepository;
@@ -35,7 +34,8 @@ public class QuizGame {
 //        return builderKeyboard
 //                .addLine().addButton(0, "Кнопка 1").addButton(0, "кнопка 2")
 //                .addLine().addButton(1, "кнопка 3").build();
-        return builderKeyboard.buildRemove();
+//        return builderKeyboard.buildRemove();
+        return null;
     }
 
 
