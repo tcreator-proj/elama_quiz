@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import quiz_chat.elama_quiz.bot_ui.models.ReplyKeyboardMarkerBuilder;
 import quiz_chat.elama_quiz.repository.QuestStorageOperation;
 import quiz_chat.elama_quiz.repository.TravelStateRepository;
+import quiz_chat.elama_quiz.storage.QuizKeyboardMap;
 
 @Component
 public class QuizGame {
@@ -20,6 +21,9 @@ public class QuizGame {
     @Autowired
     protected ApplicationContext applicationContext;
 
+    @Autowired
+    protected QuizKeyboardMap quizKeyboardMap;
+
     // есть ли в текущем фрейме текст кнопки
     public boolean findTextInFrameOptions(Message msg) {
         long chatId = msg.getChatId();
@@ -30,11 +34,7 @@ public class QuizGame {
     }
 
     public ReplyKeyboard getTestKeyboardWithText() {
-        var builderKeyboard = applicationContext.getBean(ReplyKeyboardMarkerBuilder.class);
-//        return builderKeyboard
-//                .addLine().addButton(0, "Кнопка 1").addButton(0, "кнопка 2")
-//                .addLine().addButton(1, "кнопка 3").build();
-//        return builderKeyboard.buildRemove();
+        // TODO изменить магические числа
         return null;
     }
 
