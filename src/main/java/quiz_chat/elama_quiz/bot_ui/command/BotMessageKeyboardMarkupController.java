@@ -13,7 +13,7 @@ import quiz_chat.elama_quiz.bot_ui.game_process.QuizGame;
 @Component
 @NoArgsConstructor
 @Scope("prototype")
-public class BotMessageOfQuizController implements Executable {
+public class BotMessageKeyboardMarkupController implements Executable {
     @Autowired
     protected App app;
 
@@ -30,8 +30,4 @@ public class BotMessageOfQuizController implements Executable {
 
     }
 
-    // возвращает true если текст в кнопках не найден
-    public boolean itIsNotMine() {
-        return !quizGame.findTextInFrameOptions(message);
-    }
 }

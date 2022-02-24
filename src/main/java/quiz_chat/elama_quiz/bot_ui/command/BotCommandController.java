@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import quiz_chat.elama_quiz.bot_ui.App;
 import quiz_chat.elama_quiz.bot_ui.game_process.QuizGame;
-import quiz_chat.elama_quiz.process.QuestGameplay;
+import quiz_chat.elama_quiz.bot_ui.game_process.QuestGameplay;
 
 @Component
 @Getter
@@ -41,8 +41,7 @@ public class BotCommandController implements Executable {
             app.onUpdateSynchronousReceived(startMessage);
         }
         if(message.getText().equals("/newgame")) {
-            sendMessage.setText("Просто тестовая отправка");
-            sendMessage.setReplyMarkup(quizGame.getTestKeyboardWithText());
+
             app.onUpdateSynchronousReceived(sendMessage);
 //            var startMessage = questGameplay.getStartMessage(message, sendMessage);
 //            app.onUpdateSynchronousReceived(startMessage);

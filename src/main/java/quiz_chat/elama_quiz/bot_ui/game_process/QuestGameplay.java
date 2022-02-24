@@ -1,4 +1,4 @@
-package quiz_chat.elama_quiz.process;
+package quiz_chat.elama_quiz.bot_ui.game_process;
 
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,9 @@ import quiz_chat.elama_quiz.repository.TravelStateRepository;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Deprecated
+ */
 @Component
 @NoArgsConstructor
 public class QuestGameplay {

@@ -6,11 +6,13 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import quiz_chat.elama_quiz.bot_ui.App;
-import quiz_chat.elama_quiz.process.QuestGameplay;
+import quiz_chat.elama_quiz.bot_ui.game_process.QuestGameplay;
 
+/**
+ * Deprecated
+ */
 @Component
 @NoArgsConstructor
 @Getter
