@@ -37,12 +37,12 @@ public class BotCommandController implements Executable {
         sendMessage.setChatId(String.valueOf(chatId));
 
         if(message.getText().equals("/start")) {
-            var startMessage = questGameplay.getStartMessage(message, sendMessage);
-            app.onUpdateSynchronousReceived(startMessage);
+            var startMessage = quizGame.questStarter(message);
+            app.onUpdateAsynchronousReceived(startMessage);
         }
         if(message.getText().equals("/newgame")) {
 
-            app.onUpdateSynchronousReceived(sendMessage);
+//            app.onUpdateSynchronousReceived(sendMessage);
 //            var startMessage = questGameplay.getStartMessage(message, sendMessage);
 //            app.onUpdateSynchronousReceived(startMessage);
         }

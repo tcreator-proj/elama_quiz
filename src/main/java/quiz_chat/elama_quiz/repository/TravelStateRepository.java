@@ -22,7 +22,7 @@ public interface TravelStateRepository extends CrudRepository<TravelState, Long>
     );
 
     // Возвращает маршрут с чекпоинтами на пользователя
-    @Query("SELECT TravelState.userRoute FROM TravelState ts WHERE ts.id = :id")
+    @Query("SELECT ts.userRoute FROM TravelState ts WHERE ts.id = :id")
     int[] getUserStateRouteById(@Param("id") Long id);
 
     // устанавливает новый маршрут с чекпоинтами для пользователя
@@ -32,6 +32,10 @@ public interface TravelStateRepository extends CrudRepository<TravelState, Long>
             @Param("id") Long id,
             @Param("route") int[] route
     );
+
+    // возвращает текущий фрейм
+    @Query("SELECT ts.currentFrame FROM TravelState ts WHERE ts.id = :id")
+    int getCurrentFrame(@Param("id") Long id);
 
 
     boolean existsTravelStateById(Long id);

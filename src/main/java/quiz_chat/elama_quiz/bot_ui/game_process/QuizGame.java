@@ -3,9 +3,12 @@ package quiz_chat.elama_quiz.bot_ui.game_process;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageEntity;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageList;
+import quiz_chat.elama_quiz.bot_ui.models.SendMessageBuilder;
+import quiz_chat.elama_quiz.model.QuestFrame;
 import quiz_chat.elama_quiz.repository.QuestStorageOperation;
 import quiz_chat.elama_quiz.repository.TravelStateOperation;
 import quiz_chat.elama_quiz.storage.KeyboardAnswerPoint;
@@ -13,8 +16,7 @@ import quiz_chat.elama_quiz.storage.QuizKeyboardMap;
 
 @Component
 public class QuizGame {
-//    @Autowired
-//    protected TravelStateRepository travelStateRepository;
+
     @Autowired
     protected QuestStorageOperation questStorageOperation;
     @Autowired
@@ -28,18 +30,67 @@ public class QuizGame {
 
     public SendMessageList questStarter(Message message) {
         // TODO Будет время написать enum
-        int START_FRAME = 10;
-        var startFrame = questStorageOperation.getFrame(START_FRAME);
+        int START_FRAME_NUMBER = 10;
+        var startFrame = questStorageOperation.getFrame(START_FRAME_NUMBER);
         startFrame // создание нового пользователя и установка ему текущего фрейма
                 .ifPresent(frame -> travelStateOperation.setNewUserStartTravelState(message, frame));
 
-        // создавние пула собщений
-        var sendMessageEntity = applicationContext.getBean(SendMessageEntity.class);
-        var messagePool = applicationContext.getBean("");
+        // создание пула собщений
+        var messagePool = applicationContext.getBean(SendMessageList.class);
+        if(startFrame.isPresent()) {
+            SendMessageEntity newMsgEntity = makeMessage(startFrame.get(), message.getChatId());
+            messagePool.add(newMsgEntity);
+        }
+        return messagePool;
+    }
 
+    public SendMessageList answerChat(Message message) {
+        var currentFrame = travelStateOperation.getCurrentFrame(message.getChatId());
+        var nextPoint = keyboardAnswerPoint.getIfPresent(currentFrame, message.getText().hashCode());
+        int nextGroup = nextPoint.orElse(0);
+        travelStateOperation.setCurrentFrame(message.getChatId(), nextGroup);
+        var nextFrame = questStorageOperation.getFrame(nextGroup);
 
-        return null;
+        var messagePool = applicationContext.getBean(SendMessageList.class);
+        if(nextFrame.isPresent()) {
+            SendMessageEntity newMsgEntity = makeMessage(nextFrame.get(), message.getChatId());
+            messagePool.add(newMsgEntity);
+        }
+        return messagePool;
     }
 
 
+
+    // собирает сообщения из текущего фрейма. Устанавливает новый фрейм в TravelState
+    protected SendMessageEntity makeMessage(QuestFrame frame, Long chatId) {
+        var question = frame.getQuestionQuiz();
+        var answer = frame.getAnswerQuiz();
+        var finalQuiz = frame.getFinalQuiz();
+        var groupNumber = frame.getFrameGroup();
+
+        var sendMessageEntity = applicationContext.getBean(SendMessageEntity.class);
+        var sendMessageBuilder = applicationContext.getBean(SendMessageBuilder.class);
+        if(question != null) {
+            var keyboard = quizKeyboardMap.getKeyboard(groupNumber);
+            sendMessageBuilder
+                    .setChatId(chatId)
+                    .setText(question.getContent())
+                    .setReplyMarkup(keyboard.orElse(null));
+            sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
+        }
+
+        if(answer != null) {
+            //устанавливаем следующий фрейм в текущий фрейм в TravelState
+            travelStateOperation.setCurrentFrameToRoute(chatId, answer.getNext());
+
+            sendMessageBuilder
+                    .setChatId(chatId)
+                    .setText(answer.getContent());
+
+            sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
+            sendMessageEntity.setDelay(answer.getDelay());
+        }
+        // TODO разобрать как поступать с checkpoint сообщениями
+        return sendMessageEntity;
+    }
 }

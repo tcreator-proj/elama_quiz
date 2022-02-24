@@ -21,7 +21,7 @@ public class TravelStateOperation {
         travelState.setUserRoute(new int[] {});
         travelState.setUserNickName(message.getChat().getFirstName());
         travelState.setId(message.getChatId());
-        travelState.setCurrentFrame(questFrame.getAnswerQuiz().getNext());
+        travelState.setCurrentFrame(questFrame.getFrameGroup());
         travelState.setUserName(message.getChat().getUserName());
         travelStateRepository.save(travelState);
     }
@@ -38,5 +38,13 @@ public class TravelStateOperation {
     // Устанавлявает текущий фрейм в базу
     public void setCurrentFrameToRoute(Long id, Integer current) {
         travelStateRepository.setCurrentFrame(id, current);
+    }
+
+    public void setCurrentFrame(Long id, int frameNumber) {
+        travelStateRepository.setCurrentFrame(id, frameNumber);
+    }
+
+    public int getCurrentFrame(Long id) {
+        return travelStateRepository.getCurrentFrame(id);
     }
 }
