@@ -33,6 +33,9 @@ public class Quiz {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "checkpoint")
+    private String checkpoint;
+
     @Column(name = "delay" )
     private Integer delay;
 

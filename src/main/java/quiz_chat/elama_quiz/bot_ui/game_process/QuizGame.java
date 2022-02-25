@@ -3,7 +3,6 @@ package quiz_chat.elama_quiz.bot_ui.game_process;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageEntity;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageList;
@@ -13,6 +12,8 @@ import quiz_chat.elama_quiz.repository.QuestStorageOperation;
 import quiz_chat.elama_quiz.repository.TravelStateOperation;
 import quiz_chat.elama_quiz.storage.KeyboardAnswerPoint;
 import quiz_chat.elama_quiz.storage.QuizKeyboardMap;
+
+import java.util.ArrayList;
 
 @Component
 public class QuizGame {
@@ -59,8 +60,6 @@ public class QuizGame {
         return messagePool;
     }
 
-
-
     // собирает сообщения из текущего фрейма. Устанавливает новый фрейм в TravelState
     protected SendMessageEntity makeMessage(QuestFrame frame, Long chatId) {
         var question = frame.getQuestionQuiz();
@@ -81,11 +80,12 @@ public class QuizGame {
 
         if(answer != null) {
             //устанавливаем следующий фрейм в текущий фрейм в TravelState
-            travelStateOperation.setCurrentFrameToRoute(chatId, answer.getNext());
+            //travelStateOperation.setCurrentFrameToRoute(chatId, answer.getNext());
 
             sendMessageBuilder
                     .setChatId(chatId)
-                    .setText(answer.getContent());
+                    .setText(answer.getContent())
+                    .setParseMode("markdown");
 
             sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
             sendMessageEntity.setDelay(answer.getDelay());
@@ -93,4 +93,47 @@ public class QuizGame {
         // TODO разобрать как поступать с checkpoint сообщениями
         return sendMessageEntity;
     }
+
+    public SendMessageList test(Message message, int param) {
+        var nextFrame = questStorageOperation.getFrame(param);
+
+        var messagePool = applicationContext.getBean(SendMessageList.class);
+        if(nextFrame.isPresent()) {
+            SendMessageEntity newMsgEntity = makeMessage(nextFrame.get(), message.getChatId());
+            messagePool.add(newMsgEntity);
+        }
+        return messagePool;
+    }
+
+
+    public SendMessageList additionTest(Message message, ArrayList<Integer> paramList) {
+        var messagePool = applicationContext.getBean(SendMessageList.class);
+        for (Integer digit: paramList) {
+            var nextFrame = questStorageOperation.getFrame(digit);
+            if(nextFrame.isPresent()) {
+                SendMessageEntity newMsgEntity = makeAdditionalTest(nextFrame.get(), message.getChatId());
+                messagePool.add(newMsgEntity);
+            }
+        }
+        return messagePool;
+    }
+
+    protected SendMessageEntity makeAdditionalTest(QuestFrame frame, Long chatId) {
+        var question = frame.getQuestionQuiz();
+
+        var sendMessageEntity = applicationContext.getBean(SendMessageEntity.class);
+        var sendMessageBuilder = applicationContext.getBean(SendMessageBuilder.class);
+        if(question != null) {
+            sendMessageBuilder
+                    .setChatId(chatId)
+                    .setText(question.getAdditional())
+                    .setParseMode("markdown");
+            sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
+        }
+        // TODO разобрать как поступать с checkpoint сообщениями
+        return sendMessageEntity;
+    }
+
+
+
 }
