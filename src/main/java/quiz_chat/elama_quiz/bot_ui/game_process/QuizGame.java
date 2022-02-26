@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import quiz_chat.elama_quiz.bot_ui.message_entity.MessageEntityMaker;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageEntity;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageList;
 import quiz_chat.elama_quiz.bot_ui.models.SendMessageBuilder;
@@ -24,6 +25,10 @@ public class QuizGame {
     protected ApplicationContext applicationContext;
     @Autowired
     protected QuizKeyboardMap quizKeyboardMap;
+    @Autowired
+    protected MessageEntityMaker messageEntityMaker;
+
+
     @Autowired
     protected KeyboardAnswerPoint keyboardAnswerPoint;
     @Autowired
@@ -65,34 +70,26 @@ public class QuizGame {
         var question = frame.getQuestionQuiz();
         var answer = frame.getAnswerQuiz();
         var finalQuiz = frame.getFinalQuiz();
-        var groupNumber = frame.getFrameGroup();
 
-        var sendMessageEntity = applicationContext.getBean(SendMessageEntity.class);
-        var sendMessageBuilder = applicationContext.getBean(SendMessageBuilder.class);
         if(question != null) {
-            var keyboard = quizKeyboardMap.getKeyboard(groupNumber);
-            sendMessageBuilder
-                    .setChatId(chatId)
-                    .setText(question.getContent())
-                    .setReplyMarkup(keyboard.orElse(null));
-            sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
+            return messageEntityMaker.makeQuestionEntity(question, chatId);
         }
 
         if(answer != null) {
             //устанавливаем следующий фрейм в текущий фрейм в TravelState
             //travelStateOperation.setCurrentFrameToRoute(chatId, answer.getNext());
+            return messageEntityMaker.makeAnswerEntity(answer, chatId);
+        }
 
-            sendMessageBuilder
-                    .setChatId(chatId)
-                    .setText(answer.getContent())
-                    .setParseMode("markdown");
-
-            sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
-            sendMessageEntity.setDelay(answer.getDelay());
+        if(finalQuiz != null) {
+            return messageEntityMaker.makeFinalEntity(finalQuiz, chatId);
         }
         // TODO разобрать как поступать с checkpoint сообщениями
-        return sendMessageEntity;
+        return null;
     }
+
+
+    // методы для тестирования отображения контента
 
     public SendMessageList test(Message message, int param) {
         var nextFrame = questStorageOperation.getFrame(param);
@@ -111,27 +108,22 @@ public class QuizGame {
         for (Integer digit: paramList) {
             var nextFrame = questStorageOperation.getFrame(digit);
             if(nextFrame.isPresent()) {
-                SendMessageEntity newMsgEntity = makeAdditionalTest(nextFrame.get(), message.getChatId());
+                SendMessageEntity newMsgEntity = messageEntityMaker.makeEntityWithAdditional(nextFrame.get().getPresentQuiz(), message.getChatId());
                 messagePool.add(newMsgEntity);
             }
         }
         return messagePool;
     }
 
+
     protected SendMessageEntity makeAdditionalTest(QuestFrame frame, Long chatId) {
         var question = frame.getQuestionQuiz();
 
-        var sendMessageEntity = applicationContext.getBean(SendMessageEntity.class);
-        var sendMessageBuilder = applicationContext.getBean(SendMessageBuilder.class);
         if(question != null) {
-            sendMessageBuilder
-                    .setChatId(chatId)
-                    .setText(question.getAdditional())
-                    .setParseMode("markdown");
-            sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
+            return messageEntityMaker.makeQuestionEntity(question, chatId);
         }
         // TODO разобрать как поступать с checkpoint сообщениями
-        return sendMessageEntity;
+        return null;
     }
 
 

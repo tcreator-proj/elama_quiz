@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @NoArgsConstructor
 public class QuizKeyboardMap {
     static protected ConcurrentHashMap<Integer, ReplyKeyboardMarkup> frameKeyboardMarkup = new ConcurrentHashMap<>();
-    static protected ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
 
     // возвращает клавиатуру по номеру фрейма
     public Optional<ReplyKeyboardMarkup> getKeyboard(Integer frame) {
@@ -20,6 +19,8 @@ public class QuizKeyboardMap {
     }
 
     public ReplyKeyboardRemove getReplyKeyboardRemove() {
+        var replyKeyboardRemove = new ReplyKeyboardRemove();
+        replyKeyboardRemove.setRemoveKeyboard(true);
         return replyKeyboardRemove;
     }
 }

@@ -60,7 +60,6 @@ public class BotCommandController implements Executable {
         if(message.getText().startsWith("/test")) {
             var param = message.getText().split(" ")[1];
             app.onUpdateAsynchronousReceived(quizGame.test(message, Integer.parseInt(param)));
-
         }
 
         if(message.getText().startsWith("/addit_test")) {

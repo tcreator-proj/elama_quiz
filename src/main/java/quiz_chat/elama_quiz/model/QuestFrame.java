@@ -20,4 +20,20 @@ public class QuestFrame {
     private Integer frameGroup;
     private Quiz answerQuiz;
     private Quiz questionQuiz;
+
+    // Возвращает любой присутствующий квиз
+    public Quiz getPresentQuiz() {
+        if(finalQuiz != null) {
+            return finalQuiz;
+        }
+        if(answerQuiz != null) {
+            return answerQuiz;
+        }
+        if(questionQuiz != null) {
+            return questionQuiz;
+        }
+        return null;
+
+    }
+
 }
