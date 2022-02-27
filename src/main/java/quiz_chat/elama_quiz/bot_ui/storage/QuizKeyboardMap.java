@@ -1,4 +1,4 @@
-package quiz_chat.elama_quiz.storage;
+package quiz_chat.elama_quiz.bot_ui.storage;
 
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

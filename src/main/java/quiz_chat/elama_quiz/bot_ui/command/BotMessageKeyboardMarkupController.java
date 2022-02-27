@@ -21,13 +21,14 @@ public class BotMessageKeyboardMarkupController implements Executable {
     protected QuizGame quizGame;
 
     protected final String type = "message route";
+
     @Setter
     protected long chatId;
     @Setter
     protected Message message;
     @Override
     public void execute() {
-
+        app.onUpdateAsynchronousReceived(quizGame.answerChat(message));
     }
 
 }

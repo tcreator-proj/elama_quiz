@@ -1,4 +1,4 @@
-package quiz_chat.elama_quiz.model;
+package quiz_chat.elama_quiz.bot_ui.models;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

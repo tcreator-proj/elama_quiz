@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component
 public class BuildGroupMap {
-    protected HashMap<Integer, ArrayList<Quiz>> getGroupHashMap(@NotNull List<Quiz> quizList) {
+    public HashMap<Integer, ArrayList<Quiz>> getGroupHashMap(@NotNull List<Quiz> quizList) {
         HashMap<Integer, ArrayList<Quiz>> tmpStorage = new HashMap<>();
         quizList.forEach(element -> {
             var groupId = element.getGroup();

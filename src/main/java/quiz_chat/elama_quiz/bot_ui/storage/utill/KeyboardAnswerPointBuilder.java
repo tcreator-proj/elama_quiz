@@ -1,12 +1,13 @@
-package quiz_chat.elama_quiz.storage.utill;
+package quiz_chat.elama_quiz.bot_ui.storage.utill;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import quiz_chat.elama_quiz.entities.Quiz;
-import quiz_chat.elama_quiz.model.KeyboardPointerMap;
-import quiz_chat.elama_quiz.storage.KeyboardAnswerPoint;
+import quiz_chat.elama_quiz.bot_ui.models.KeyboardPointerMap;
+import quiz_chat.elama_quiz.bot_ui.storage.KeyboardAnswerPoint;
+import quiz_chat.elama_quiz.storage.utill.BuildGroupMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;

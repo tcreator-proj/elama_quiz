@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import quiz_chat.elama_quiz.bot_ui.enums.ParseModeMD;
 import quiz_chat.elama_quiz.bot_ui.models.SendMessageBuilder;
 import quiz_chat.elama_quiz.entities.Quiz;
-import quiz_chat.elama_quiz.storage.QuizKeyboardMap;
+import quiz_chat.elama_quiz.bot_ui.storage.QuizKeyboardMap;
 
 @Component
 @NoArgsConstructor

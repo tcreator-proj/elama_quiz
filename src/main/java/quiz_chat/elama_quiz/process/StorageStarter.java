@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import quiz_chat.elama_quiz.repository.QuestRepository;
-import quiz_chat.elama_quiz.storage.utill.KeyboardAnswerPointBuilder;
+import quiz_chat.elama_quiz.bot_ui.storage.utill.KeyboardAnswerPointBuilder;
 import quiz_chat.elama_quiz.storage.utill.QuestStorageBuilder;
-import quiz_chat.elama_quiz.storage.utill.QuizKeyboardMapBuilder;
+import quiz_chat.elama_quiz.bot_ui.storage.utill.QuizKeyboardMapBuilder;
 
 @Component
 @Slf4j

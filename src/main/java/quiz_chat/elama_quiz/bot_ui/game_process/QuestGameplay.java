@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageEntity;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageList;
 import quiz_chat.elama_quiz.entities.TravelState;
-import quiz_chat.elama_quiz.model.InlineKeyboardQueryBuilder;
+import quiz_chat.elama_quiz.bot_ui.models.InlineKeyboardQueryBuilder;
 import quiz_chat.elama_quiz.model.QuestFrame;
 import quiz_chat.elama_quiz.repository.QuestStorageOperation;
 import quiz_chat.elama_quiz.repository.TravelStateRepository;

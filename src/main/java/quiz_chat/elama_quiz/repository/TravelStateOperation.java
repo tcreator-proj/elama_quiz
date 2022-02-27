@@ -14,6 +14,9 @@ public class TravelStateOperation {
     @Autowired
     protected ApplicationContext applicationContext;
 
+    @Autowired
+    protected UpdateTravelState updateTravelState;
+
     // создаёт начальный объект TravelState и пушит его в базу
     public void setNewUserStartTravelState(Message message, QuestFrame questFrame) {
         TravelState travelState = applicationContext.getBean(TravelState.class);
@@ -32,16 +35,16 @@ public class TravelStateOperation {
         var rLen = route.length;
         int[] newRoute = new int[rLen + 1]; // увеличиваем массив маршрута
         newRoute[rLen] = checkpointNum;
-        travelStateRepository.setUserStateRouteById(id, newRoute);
+        updateTravelState.setUserStateRouteById(id, newRoute);
     }
 
     // Устанавлявает текущий фрейм в базу
     public void setCurrentFrameToRoute(Long id, Integer current) {
-        travelStateRepository.setCurrentFrame(id, current);
+        updateTravelState.setCurrentFrame(id, current);
     }
 
     public void setCurrentFrame(Long id, int frameNumber) {
-        travelStateRepository.setCurrentFrame(id, frameNumber);
+        updateTravelState.setCurrentFrame(id, frameNumber);
     }
 
     public int getCurrentFrame(Long id) {

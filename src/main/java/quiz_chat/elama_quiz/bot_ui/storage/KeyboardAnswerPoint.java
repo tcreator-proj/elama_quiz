@@ -1,7 +1,7 @@
-package quiz_chat.elama_quiz.storage;
+package quiz_chat.elama_quiz.bot_ui.storage;
 
 import org.springframework.stereotype.Component;
-import quiz_chat.elama_quiz.model.KeyboardPointerMap;
+import quiz_chat.elama_quiz.bot_ui.models.KeyboardPointerMap;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
