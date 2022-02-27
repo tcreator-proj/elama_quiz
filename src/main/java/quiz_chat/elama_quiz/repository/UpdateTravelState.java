@@ -31,11 +31,13 @@ public class UpdateTravelState {
 
     @Transactional
     @Modifying
-    public void setUserStateRouteById(@Param("id") Long id, @Param("route") int[] route) {
+    public void setCheckpoint(@Param("id") Long id, @Param("route") int newCheckpoint) {
         transactionTemplate.execute(transactionStatus -> {
-            entityManager.createQuery("UPDATE TravelState ts SET ts.userRoute = :route WHERE ts.id = :id")
+            entityManager
+                    .createQuery("UPDATE TravelState ts SET ts.userRoute = " +
+                            "array_append(ts.userRoute, :new_checkpoint) WHERE ts.id = :id")
                     .setParameter("id", id)
-                    .setParameter("route", route)
+                    .setParameter("new_checkpoint", newCheckpoint)
                     .executeUpdate();
             transactionStatus.flush();
             return null;

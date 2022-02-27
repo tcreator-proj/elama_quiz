@@ -34,7 +34,7 @@ public class Quiz {
     private String content;
 
     @Column(name = "checkpoint")
-    private String checkpoint;
+    private Boolean checkpoint;
 
     @Column(name = "delay" )
     private Integer delay;

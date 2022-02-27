@@ -32,9 +32,11 @@ public class QuestStorageBuilder extends QuestStorage {
             Quiz finalQuiz = null;
             Quiz answerQuiz = null;
             Quiz questionQuiz = null;
+            boolean checkpoint = false;
 
             ArrayList<Quiz> optionList = new ArrayList<>();
             for (Quiz q: valueList) {
+
                 if(q.get_final() != null && q.get_final()) {
                     finalQuiz = q;
                 }
@@ -50,8 +52,12 @@ public class QuestStorageBuilder extends QuestStorage {
                 if(q.getIsOption() != null && q.getIsOption()) {
                     optionList.add(q);
                 }
+                if(!checkpoint && q.getCheckpoint() != null) {
+                    checkpoint = true;
+                }
             }
             var qf = applicationContext.getBean(QuestFrame.class);
+            qf.setCheckpoint(checkpoint);
             qf.setFrameGroup(keyValue);
             qf.setFinalQuiz(finalQuiz);
             qf.setQuestionQuiz(questionQuiz);

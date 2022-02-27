@@ -15,6 +15,7 @@ import quiz_chat.elama_quiz.bot_ui.storage.KeyboardAnswerPoint;
 import quiz_chat.elama_quiz.bot_ui.storage.QuizKeyboardMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Component
 public class QuizGame {
@@ -50,22 +51,32 @@ public class QuizGame {
     }
 
     public SendMessageList answerChat(Message message) {
-        var currentFrame = travelStateOperation.getCurrentFrame(message.getChatId());
+        Long chatId = message.getChatId();
+        var currentFrame = travelStateOperation.getCurrentFrame(chatId);
         var nextPoint =
                 keyboardAnswerPoint.getIfPresent(currentFrame, message.getText().hashCode());
+        // если в текущей клавиатуре нет ссылки, значит пользователь пишет своё.
         int nextGroup = nextPoint.orElse(0);
         var msgPoolCreator = getSendMessageList();
         if(nextGroup != 0) {
             // установка следующего фрейма в базу
-            travelStateOperation.setCurrentFrame(message.getChatId(), nextGroup);
+            travelStateOperation.setCurrentFrame(chatId, nextGroup);
 
             var nextFrame = questStorageOperation.getFrame(nextGroup);
             if(nextFrame.isPresent()) {
-
-                SendMessageEntity newMsgEntity = makeMessage(nextFrame.get(), message.getChatId());
+                var nextFrameObj = nextFrame.get();
+                // если чекпоинт - добавляем в маршрут
+                if(nextFrameObj.isItCheckpoint()) {
+                    travelStateOperation.addCheckpointToRouteList(chatId, nextGroup);
+                }
+                SendMessageEntity newMsgEntity = makeMessage(nextFrameObj, chatId);
                 msgPoolCreator.add(newMsgEntity);
+                if(nextFrame.get().getFinalQuiz() != null) {
+                    addAllCheckpointToCurrentMessageList(chatId, msgPoolCreator);
+                }
             }
         }
+
         return msgPoolCreator;
     }
 
@@ -80,18 +91,27 @@ public class QuizGame {
         }
 
         if(answer != null) {
-            //устанавливаем следующий фрейм в текущий фрейм в TravelState
-            //travelStateOperation.setCurrentFrameToRoute(chatId, answer.getNext());
             return messageEntityMaker.makeAnswerEntity(answer, chatId);
         }
 
         if(finalQuiz != null) {
             return messageEntityMaker.makeFinalEntity(finalQuiz, chatId);
         }
-        // TODO разобрать как поступать с checkpoint сообщениями
         return null;
     }
 
+    protected void addAllCheckpointToCurrentMessageList(Long chatId, SendMessageList currentMessageList) {
+        int[] checkpointList = travelStateOperation.getUserStateRoute(chatId);
+
+        for(int checkpoint : checkpointList) {
+            var frame = questStorageOperation.getFrame(checkpoint);
+            frame.ifPresent(f -> {
+                var questionQuiz = f.getQuestionQuiz();
+                var msgEntity = messageEntityMaker.makeCheckpointEntity(questionQuiz, chatId);
+                currentMessageList.add(msgEntity);
+            });
+        }
+    }
 
     // методы для тестирования отображения контента
 

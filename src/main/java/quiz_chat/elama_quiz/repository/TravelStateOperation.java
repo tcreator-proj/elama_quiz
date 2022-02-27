@@ -13,7 +13,6 @@ public class TravelStateOperation {
     protected TravelStateRepository travelStateRepository;
     @Autowired
     protected ApplicationContext applicationContext;
-
     @Autowired
     protected UpdateTravelState updateTravelState;
 
@@ -31,23 +30,25 @@ public class TravelStateOperation {
 
     // добавить новый фрейм в список прохождения пользователя
     public void addCheckpointToRouteList(Long id, Integer checkpointNum) {
-        int[] route = travelStateRepository.getUserStateRouteById(id);
-        var rLen = route.length;
-        int[] newRoute = new int[rLen + 1]; // увеличиваем массив маршрута
-        newRoute[rLen] = checkpointNum;
-        updateTravelState.setUserStateRouteById(id, newRoute);
+        updateTravelState.setCheckpoint(id, checkpointNum);
     }
 
-    // Устанавлявает текущий фрейм в базу
-    public void setCurrentFrameToRoute(Long id, Integer current) {
-        updateTravelState.setCurrentFrame(id, current);
-    }
-
+    // устанавливает номер фрейма, как текущий
     public void setCurrentFrame(Long id, int frameNumber) {
         updateTravelState.setCurrentFrame(id, frameNumber);
     }
 
+    // получает текущий фрейм пользователя
     public int getCurrentFrame(Long id) {
         return travelStateRepository.getCurrentFrame(id);
+    }
+
+    public int[] getCheckpointList(Long id) {
+        return travelStateRepository.getUserStateRouteById(id);
+    }
+
+    public int[] getUserStateRoute(Long id) {
+        var travelState = travelStateRepository.getTravelStateById(id);
+        return travelState.getUserRoute();
     }
 }

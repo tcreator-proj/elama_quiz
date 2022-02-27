@@ -1,5 +1,6 @@
 package quiz_chat.elama_quiz.repository;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -8,7 +9,7 @@ import quiz_chat.elama_quiz.entities.TravelState;
 
 @Repository
 public interface TravelStateRepository extends CrudRepository<TravelState, Long> {
-    TravelState save(TravelState state);
+    @NotNull TravelState save(TravelState state);
 
     TravelState getTravelStateById(Long id);
 
@@ -20,6 +21,4 @@ public interface TravelStateRepository extends CrudRepository<TravelState, Long>
     @Query("SELECT ts.currentFrame FROM TravelState ts WHERE ts.id = :id")
     int getCurrentFrame(@Param("id") Long id);
 
-
-    boolean existsTravelStateById(Long id);
 }

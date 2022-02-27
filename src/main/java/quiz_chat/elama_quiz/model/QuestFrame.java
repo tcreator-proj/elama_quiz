@@ -20,6 +20,11 @@ public class QuestFrame {
     private Integer frameGroup;
     private Quiz answerQuiz;
     private Quiz questionQuiz;
+    private Boolean checkpoint;
+
+    public boolean isItCheckpoint() {
+        return checkpoint;
+    }
 
     // Возвращает любой присутствующий квиз
     public Quiz getPresentQuiz() {

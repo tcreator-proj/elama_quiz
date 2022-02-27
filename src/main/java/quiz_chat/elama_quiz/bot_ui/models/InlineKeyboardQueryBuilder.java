@@ -24,11 +24,6 @@ public class InlineKeyboardQueryBuilder {
         return this;
     }
 
-    public InlineKeyboardQueryBuilder addButton(int line, InlineKeyboardButton inlineKeyboardButton) {
-        keyboard.get(line).add(inlineKeyboardButton);
-        return this;
-    }
-
     public InlineKeyboardQueryBuilder addButton(int line, String callbackData, String buttonText) {
         var inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setText(buttonText);

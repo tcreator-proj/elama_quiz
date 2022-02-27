@@ -6,6 +6,7 @@
     "describe" text,
     "additional" text,
     "content" text,
+    "checkpoint" boolean,
     "delay" int,
     "final" boolean,
     "is_question" boolean,

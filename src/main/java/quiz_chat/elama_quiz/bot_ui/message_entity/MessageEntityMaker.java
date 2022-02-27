@@ -8,6 +8,7 @@ import quiz_chat.elama_quiz.bot_ui.enums.ParseModeMD;
 import quiz_chat.elama_quiz.bot_ui.models.SendMessageBuilder;
 import quiz_chat.elama_quiz.entities.Quiz;
 import quiz_chat.elama_quiz.bot_ui.storage.QuizKeyboardMap;
+import quiz_chat.elama_quiz.repository.TravelStateRepository;
 
 @Component
 @NoArgsConstructor
@@ -54,6 +55,7 @@ public class MessageEntityMaker {
         return sendMessageEntity;
     }
 
+    // for /addit_test command
     public SendMessageEntity makeEntityWithAdditional(Quiz quiz, Long chatId) {
         var sendMessageEntity = getSendMessageEntity();
         var sendMessageBuilder = getSendMessageBuilder();
@@ -69,7 +71,7 @@ public class MessageEntityMaker {
     }
 
     // без клавиатуры
-    public SendMessageEntity makeFinalEntityWithAdditional(Quiz quiz, Long chatId) {
+    public SendMessageEntity makeCheckpointEntity(Quiz quiz, Long chatId) {
         var sendMessageEntity = getSendMessageEntity();
         var sendMessageBuilder = getSendMessageBuilder();
         sendMessageBuilder
@@ -81,8 +83,6 @@ public class MessageEntityMaker {
 
         return sendMessageEntity;
     }
-
-
 
     protected SendMessageEntity getSendMessageEntity() {
         return applicationContext.getBean(SendMessageEntity.class);
