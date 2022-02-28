@@ -11,11 +11,9 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import quiz_chat.elama_quiz.bot_ui.App;
 import quiz_chat.elama_quiz.bot_ui.controller.BotController;
 import quiz_chat.elama_quiz.bot_ui.game_process.QuizGame;
-import quiz_chat.elama_quiz.bot_ui.game_process.QuestGameplay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 @Component
 @Getter
@@ -24,8 +22,6 @@ import java.util.stream.Stream;
 public class BotCommandController implements Executable {
     @Autowired
     protected App app;
-    @Autowired
-    protected QuestGameplay questGameplay;
     // TODO убрать после тестов
     @Autowired
     protected BotController botController;
@@ -33,7 +29,6 @@ public class BotCommandController implements Executable {
     @Autowired
     protected QuizGame quizGame;
 
-    protected final String type = "command";
     @Setter
     protected long chatId;
     @Setter
@@ -44,16 +39,9 @@ public class BotCommandController implements Executable {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
 
-        if(message.getText().equals("/start")) {
+        if(message.getText().startsWith("/start") || message.getText().startsWith("/newgame")) {
             var startMessage = quizGame.questStarter(message);
             app.onUpdateAsynchronousReceived(startMessage);
-        }
-
-        if(message.getText().equals("/newgame")) {
-
-//            app.onUpdateSynchronousReceived(sendMessage);
-//            var startMessage = questGameplay.getStartMessage(message, sendMessage);
-//            app.onUpdateSynchronousReceived(startMessage);
         }
 
         //TODO удалить в продакшне

@@ -7,8 +7,11 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import quiz_chat.elama_quiz.entities.TravelState;
 import quiz_chat.elama_quiz.model.QuestFrame;
 
+/**
+ * Декоратор для {@link TravelStateRepository} и {@link UpdateTravelState}
+ */
 @Component
-public class TravelStateOperation {
+public class TravelStateDecorator {
     @Autowired
     protected TravelStateRepository travelStateRepository;
     @Autowired
@@ -25,7 +28,7 @@ public class TravelStateOperation {
         travelState.setId(message.getChatId());
         travelState.setCurrentFrame(questFrame.getFrameGroup());
         travelState.setUserName(message.getChat().getUserName());
-        travelStateRepository.save(travelState);
+        updateTravelState.save(travelState);
     }
 
     // добавить новый фрейм в список прохождения пользователя
@@ -44,10 +47,6 @@ public class TravelStateOperation {
     }
 
     public int[] getCheckpointList(Long id) {
-        return travelStateRepository.getUserStateRouteById(id);
-    }
-
-    public int[] getUserStateRoute(Long id) {
         var travelState = travelStateRepository.getTravelStateById(id);
         return travelState.getUserRoute();
     }

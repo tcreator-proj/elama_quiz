@@ -8,17 +8,18 @@ import quiz_chat.elama_quiz.model.QuestFrame;
 import quiz_chat.elama_quiz.storage.QuestStorage;
 import java.util.*;
 
-
+/**
+ * Вспомогательный класс
+ * Билдер пересборки коллекции записей Quiz в коллекцию ассоциаций (Map) "numberOfGroup => QuizFrame
+ * Требуется для препроцессинга данных
+ */
 @Component
 public class QuestStorageBuilder extends QuestStorage {
     @Autowired
     protected ApplicationContext applicationContext;
     @Autowired
     protected BuildGroupMap buildGroupMap;
-    /**
-     * Строит мапу квеста из списка
-     * @param quizList список вопросов
-     */
+
     public void buildQuestStorage(@NotNull List<Quiz> quizList) {
         HashMap<Integer, ArrayList<Quiz>> tmpStorage = buildGroupMap.getGroupHashMap(quizList);
         repackingMapToFrame(tmpStorage);

@@ -16,11 +16,8 @@ import quiz_chat.elama_quiz.bot_ui.game_process.QuizGame;
 public class BotMessageKeyboardMarkupController implements Executable {
     @Autowired
     protected App app;
-
     @Autowired
     protected QuizGame quizGame;
-
-    protected final String type = "message route";
 
     @Setter
     protected long chatId;

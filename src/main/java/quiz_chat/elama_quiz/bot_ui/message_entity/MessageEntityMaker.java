@@ -8,7 +8,6 @@ import quiz_chat.elama_quiz.bot_ui.enums.ParseModeMD;
 import quiz_chat.elama_quiz.bot_ui.models.SendMessageBuilder;
 import quiz_chat.elama_quiz.entities.Quiz;
 import quiz_chat.elama_quiz.bot_ui.storage.QuizKeyboardMap;
-import quiz_chat.elama_quiz.repository.TravelStateRepository;
 
 @Component
 @NoArgsConstructor
@@ -78,6 +77,7 @@ public class MessageEntityMaker {
                 .setChatId(chatId)
                 .setText(quiz.getAdditional())
                 .setParseMode(ParseModeMD.MARKDOWN)
+                .setDisableWebPagePreview(true)
                 .setReplyMarkup(quizKeyboardMap.getReplyKeyboardRemove());
         sendMessageEntity.setSendMessage(sendMessageBuilder.buildMessage());
 

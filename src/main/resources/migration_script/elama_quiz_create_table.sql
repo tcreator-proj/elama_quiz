@@ -25,21 +25,3 @@ create table travel_state (
       the_end bool,
       current_frame int
 );
-
-CREATE TABLE "administrators" (
-  "login" VARCHAR NOT NULL,
-  "password" VARCHAR NOT NULL,
-  CONSTRAINT "pk_administrators" PRIMARY KEY (
-      "login"
-    )
-);
-
-CREATE TABLE "users" (
-     "email" varchar NOT NULL,
-     "date_w_tz" timestamp with time zone NOT NULL,
-     "phone_number" VARCHAR(11) NOT NULL,
-     "business_size" VARCHAR NOT NULL,
-     CONSTRAINT "pk_users" PRIMARY KEY (
-        "email"
-     )
-);

@@ -14,6 +14,7 @@ public class SendMessageBuilder {
     private String text;
     private String parseMode;
     private ReplyKeyboard replyMarkup;
+    private boolean disableWebPagePreview;
 
     public SendMessageBuilder(Long id) {
         chatId = String.valueOf(id);
@@ -26,6 +27,11 @@ public class SendMessageBuilder {
 
     public SendMessageBuilder setText(String text) {
         this.text = text;
+        return this;
+    }
+
+    public SendMessageBuilder setDisableWebPagePreview(boolean preview) {
+        this.disableWebPagePreview = preview;
         return this;
     }
 
@@ -45,6 +51,7 @@ public class SendMessageBuilder {
         sendMessage.setText(text);
         sendMessage.setReplyMarkup(replyMarkup);
         sendMessage.setParseMode(parseMode);
+        sendMessage.setDisableWebPagePreview(disableWebPagePreview);
         return sendMessage;
     }
 

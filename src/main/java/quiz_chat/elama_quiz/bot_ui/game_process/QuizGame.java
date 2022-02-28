@@ -1,5 +1,6 @@
 package quiz_chat.elama_quiz.bot_ui.game_process;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -9,36 +10,28 @@ import quiz_chat.elama_quiz.bot_ui.message_entity.MessageEntityMaker;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageEntity;
 import quiz_chat.elama_quiz.bot_ui.message_entity.SendMessageList;
 import quiz_chat.elama_quiz.model.QuestFrame;
-import quiz_chat.elama_quiz.repository.QuestStorageOperation;
-import quiz_chat.elama_quiz.repository.TravelStateOperation;
+import quiz_chat.elama_quiz.repository.QuestStorageDecorator;
+import quiz_chat.elama_quiz.repository.TravelStateDecorator;
 import quiz_chat.elama_quiz.bot_ui.storage.KeyboardAnswerPoint;
 import quiz_chat.elama_quiz.bot_ui.storage.QuizKeyboardMap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @Component
+@AllArgsConstructor
 public class QuizGame {
-    @Autowired
     protected ApplicationContext app;
-
-    @Autowired
-    protected QuestStorageOperation questStorageOperation;
-    @Autowired
+    protected QuestStorageDecorator questStorageDecorator;
     protected QuizKeyboardMap quizKeyboardMap;
-    @Autowired
     protected MessageEntityMaker messageEntityMaker;
-
-    @Autowired
     protected KeyboardAnswerPoint keyboardAnswerPoint;
-    @Autowired
-    protected TravelStateOperation travelStateOperation;
+    protected TravelStateDecorator travelStateDecorator;
 
     public SendMessageList questStarter(Message message) {
         // TODO Будет время написать enum
-        var startFrame = questStorageOperation.getFrame(Start.START_FRAME);
+        var startFrame = questStorageDecorator.getFrame(Start.START_FRAME);
         startFrame // создание нового пользователя и установка ему текущего фрейма
-                .ifPresent(frame -> travelStateOperation.setNewUserStartTravelState(message, frame));
+                .ifPresent(frame -> travelStateDecorator.setNewUserStartTravelState(message, frame));
 
         // создание пула собщений
         var msgPoolCreator = getSendMessageList();
@@ -52,7 +45,7 @@ public class QuizGame {
 
     public SendMessageList answerChat(Message message) {
         Long chatId = message.getChatId();
-        var currentFrame = travelStateOperation.getCurrentFrame(chatId);
+        var currentFrame = travelStateDecorator.getCurrentFrame(chatId);
         var nextPoint =
                 keyboardAnswerPoint.getIfPresent(currentFrame, message.getText().hashCode());
         // если в текущей клавиатуре нет ссылки, значит пользователь пишет своё.
@@ -60,14 +53,14 @@ public class QuizGame {
         var msgPoolCreator = getSendMessageList();
         if(nextGroup != 0) {
             // установка следующего фрейма в базу
-            travelStateOperation.setCurrentFrame(chatId, nextGroup);
+            travelStateDecorator.setCurrentFrame(chatId, nextGroup);
 
-            var nextFrame = questStorageOperation.getFrame(nextGroup);
+            var nextFrame = questStorageDecorator.getFrame(nextGroup);
             if(nextFrame.isPresent()) {
                 var nextFrameObj = nextFrame.get();
                 // если чекпоинт - добавляем в маршрут
                 if(nextFrameObj.isItCheckpoint()) {
-                    travelStateOperation.addCheckpointToRouteList(chatId, nextGroup);
+                    travelStateDecorator.addCheckpointToRouteList(chatId, nextGroup);
                 }
                 SendMessageEntity newMsgEntity = makeMessage(nextFrameObj, chatId);
                 msgPoolCreator.add(newMsgEntity);
@@ -76,7 +69,6 @@ public class QuizGame {
                 }
             }
         }
-
         return msgPoolCreator;
     }
 
@@ -101,10 +93,10 @@ public class QuizGame {
     }
 
     protected void addAllCheckpointToCurrentMessageList(Long chatId, SendMessageList currentMessageList) {
-        int[] checkpointList = travelStateOperation.getUserStateRoute(chatId);
+        int[] checkpointList = travelStateDecorator.getCheckpointList(chatId);
 
         for(int checkpoint : checkpointList) {
-            var frame = questStorageOperation.getFrame(checkpoint);
+            var frame = questStorageDecorator.getFrame(checkpoint);
             frame.ifPresent(f -> {
                 var questionQuiz = f.getQuestionQuiz();
                 var msgEntity = messageEntityMaker.makeCheckpointEntity(questionQuiz, chatId);
@@ -116,7 +108,7 @@ public class QuizGame {
     // методы для тестирования отображения контента
 
     public SendMessageList test(Message message, int param) {
-        var nextFrame = questStorageOperation.getFrame(param);
+        var nextFrame = questStorageDecorator.getFrame(param);
         var msgPoolCreator = getSendMessageList();
         if(nextFrame.isPresent()) {
             SendMessageEntity newMsgEntity = makeMessage(nextFrame.get(), message.getChatId());
@@ -129,7 +121,7 @@ public class QuizGame {
     public SendMessageList additionTest(Message message, ArrayList<Integer> paramList) {
         var msgPoolCreator = getSendMessageList();
         for (Integer digit: paramList) {
-            var nextFrame = questStorageOperation.getFrame(digit);
+            var nextFrame = questStorageDecorator.getFrame(digit);
             if(nextFrame.isPresent()) {
                 SendMessageEntity newMsgEntity = messageEntityMaker.makeEntityWithAdditional(nextFrame.get().getPresentQuiz(), message.getChatId());
                 msgPoolCreator.add(newMsgEntity);

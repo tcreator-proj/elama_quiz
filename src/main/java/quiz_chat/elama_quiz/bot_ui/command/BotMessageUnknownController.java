@@ -31,7 +31,7 @@ public class BotMessageUnknownController implements Executable {
     public void execute() {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Не могу разобрать. Не похоже на выбор или команду(");
+        sendMessage.setText("Не могу разобрать. Не похоже на кнопку или команду(");
         app.onUpdateSynchronousReceived(sendMessage);
     }
 }
