@@ -12,6 +12,7 @@ import quiz_chat.elama_quiz.entities.TravelState;
 @Repository
 public interface TravelStateRepository extends CrudRepository<TravelState, Long> {
 
+
     /**
      * Возвращает запись {@link TravelState}
      * @param id {@link Long} chat_id пользователя

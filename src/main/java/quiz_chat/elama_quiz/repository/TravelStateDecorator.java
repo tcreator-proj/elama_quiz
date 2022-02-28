@@ -1,5 +1,6 @@
 package quiz_chat.elama_quiz.repository;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -11,13 +12,12 @@ import quiz_chat.elama_quiz.model.QuestFrame;
  * Декоратор для {@link TravelStateRepository} и {@link UpdateTravelState}
  */
 @Component
+@AllArgsConstructor
 public class TravelStateDecorator {
-    @Autowired
     protected TravelStateRepository travelStateRepository;
-    @Autowired
     protected ApplicationContext applicationContext;
-    @Autowired
     protected UpdateTravelState updateTravelState;
+    protected TravelStateSave travelStateSave;
 
     // создаёт начальный объект TravelState и пушит его в базу
     public void setNewUserStartTravelState(Message message, QuestFrame questFrame) {
@@ -28,7 +28,7 @@ public class TravelStateDecorator {
         travelState.setId(message.getChatId());
         travelState.setCurrentFrame(questFrame.getFrameGroup());
         travelState.setUserName(message.getChat().getUserName());
-        updateTravelState.save(travelState);
+        travelStateSave.save(travelState);
     }
 
     // добавить новый фрейм в список прохождения пользователя

@@ -10,7 +10,6 @@ spring:
     username: ${DB_ELAMA_QUIZ_USERNAME}
     hikari:
       connection-timeout: 10000
-      idle-timeout: 60000
       max-lifetime: 180000
   liquibase:
     change-log: "classpath:db/changelog/db.changelog-master.yaml"
