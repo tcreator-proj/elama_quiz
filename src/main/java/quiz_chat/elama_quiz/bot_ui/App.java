@@ -38,17 +38,13 @@ public class App extends TelegramLongPollingBot {
     }
 
     // Асинхронная отправка сообщения
-    // TODO продумать отправку сообщения из другого потока чтобы не занимать главный поток
     @Async
     public void onUpdateAsynchronousReceived(SendMessageList sendMessageList) {
         try {
-            System.out.println(sendMessageList.size());
-            for(int i = 0; i < sendMessageList.size(); i++) {
-                SendMessageEntity entity = sendMessageList.get(i);
+            for (SendMessageEntity entity : sendMessageList.getSendMessageList()) {
                 execute(entity.getSendMessage());
-                Thread.sleep(entity.getDelay());
             }
-        } catch (TelegramApiException | InterruptedException e) {
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
@@ -58,16 +54,6 @@ public class App extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-
-            e.printStackTrace();
-        }
-    }
-
-    public void onUpdateSynchronousReceived(SendMessageList messageList) {
-        try {
-            execute(messageList.get(0).getSendMessage());
-        } catch (TelegramApiException e) {
-
             e.printStackTrace();
         }
     }

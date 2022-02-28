@@ -1,5 +1,6 @@
 package quiz_chat.elama_quiz.bot_ui.message_entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Scope("prototype")
 public class SendMessageList {
+    @Getter
     protected List<SendMessageEntity> sendMessageList = new ArrayList<>();
 
     public int size() {

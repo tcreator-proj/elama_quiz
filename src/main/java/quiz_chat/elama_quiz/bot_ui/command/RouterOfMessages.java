@@ -14,7 +14,6 @@ public class RouterOfMessages {
         if(botMessageUpdating.hasMessage()) {
             var messageId = botMessageUpdating.getMessage().getChatId();
             var message = botMessageUpdating.getMessage();
-            // TODO прописать сравнение со списком команд, установленных в боте
             if(botMessageUpdating.getMessage().isCommand()) {
                 botCommandController.setMessage(message);
                 botCommandController.setChatId(messageId);

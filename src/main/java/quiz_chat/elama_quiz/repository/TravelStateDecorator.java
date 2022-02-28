@@ -1,7 +1,6 @@
 package quiz_chat.elama_quiz.repository;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -22,12 +21,13 @@ public class TravelStateDecorator {
     // создаёт начальный объект TravelState и пушит его в базу
     public void setNewUserStartTravelState(Message message, QuestFrame questFrame) {
         TravelState travelState = applicationContext.getBean(TravelState.class);
+        var userName = message.getChat().getUserName() != null ? message.getChat().getUserName() : "";
         travelState.setTheEnd(false);
         travelState.setUserRoute(new int[] {});
         travelState.setUserNickName(message.getChat().getFirstName());
         travelState.setId(message.getChatId());
         travelState.setCurrentFrame(questFrame.getFrameGroup());
-        travelState.setUserName(message.getChat().getUserName());
+        travelState.setUserName(userName);
         travelStateSave.save(travelState);
     }
 
