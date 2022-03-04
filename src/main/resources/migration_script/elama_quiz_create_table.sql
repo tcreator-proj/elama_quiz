@@ -12,15 +12,6 @@
      )
 );
 
-CREATE TABLE "administrators" (
-    "login" VARCHAR NOT NULL,
-    "password" VARCHAR NOT NULL,
-    "role" VARCHAR(10) NOT NULL,
-    CONSTRAINT "pk_administrators" PRIMARY KEY (
-        "login"
-     )
-);
-
 CREATE TABLE "users" (
     "email" varchar NOT NULL,
     "role" VARCHAR(10) NOT NULL,
