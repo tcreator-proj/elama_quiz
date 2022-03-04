@@ -1,13 +1,12 @@
 ﻿CREATE TABLE "quiz" (
     "ID" serial NOT NULL,
-    "group" integer NOT NULL, -- номер группы ( каждый 10й ID)
-    "next" integer, -- следующий элемент ( ссылка на группу )
-    "prev" integer, -- предыдущий элемент ( ссылка на группу )
-    "describe" text, -- описание вопроса или варианта ответа
-    "additional" text, -- дополнительные материалы для крепления при ответе
-    "question" text, -- сам вопрос или вариант ответа ( выводится в чат)
-    "delay" int, -- задержка перед выводом в чат
-    "final" boolean, -- завершающий элемент в цепочке
+    "next" integer[] NOT NULL,
+    "prev" integer,
+    "describe" text NOT NULL,
+    "additional" text NOT NULL,
+    "question" text NOT NULL,
+    "delay" int NOT NULL,
+    "final" boolean NOT NULL,
     CONSTRAINT "pk_quiz" PRIMARY KEY (
         "ID"
      )

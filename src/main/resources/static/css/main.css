@@ -150,6 +150,14 @@ ul {
     align-self: flex-start;
 }
 
+.message-partner-button {
+    font-size: 12px;
+    margin: 0 0 15px;
+    color: #9cc900;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
 .message-sender a, .message-sender a:link, .message-sender a:visited, .chat-partner-name a, .chat-partner-name a:link, .chat-partner-name a:visited {
     color: #30649c;
     text-decoration: none;
@@ -173,6 +181,10 @@ ul {
     border-right: none;
     bottom: -22px;
     right: 10px;
+}
+
+.option {
+    position: static;
 }
 
 .message-partner {

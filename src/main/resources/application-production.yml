@@ -1,0 +1,28 @@
+server:
+  port: 9999
+spring:
+  main:
+    banner-mode: off
+  datasource:
+    driver-class-name: "org.postgresql.Driver"
+    url: ${SPRING_DATASOURCE_URL}
+    password: ${DB_ELAMA_QUIZ_PASSWORD}
+    username: ${DB_ELAMA_QUIZ_USERNAME}
+    hikari:
+      connection-timeout: 10000
+      max-lifetime: 180000
+  liquibase:
+    change-log: "classpath:db/changelog/db.changelog-master.yaml"
+    enabled: false
+  sql:
+    init:
+      continue-on-error: true
+  thymeleaf:
+    enabled: true
+    prefix: "classpath:/static/"
+bot:
+  name: ${BOT_NAME}
+  token: ${BOT_TOKEN}
+logging:
+  file:
+    name: "application.log"
